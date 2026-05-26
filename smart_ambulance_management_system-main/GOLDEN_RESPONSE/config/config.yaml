@@ -1,0 +1,52 @@
+# Configuration for Intelligent Emergency Response Optimization System
+
+system:
+  random_seed: 42
+  log_level: "INFO"
+
+data:
+  raw_dir: "data/raw"
+  output_dir: "outputs"
+  reports_dir: "outputs/reports"
+  plots_dir: "outputs/plots"
+  models_dir: "outputs/models"
+  
+  # File paths
+  dispatch_file: "data/raw/dispatch_records.csv"
+  gps_file: "data/raw/gps_tracking.csv"
+  traffic_file: "data/raw/traffic_monitoring.csv"
+  weather_file: "data/raw/weather_data.csv"
+
+preprocessing:
+  # Speed outliers (km/h)
+  max_allowable_speed: 150.0
+  min_allowable_speed: 2.0
+  # Duration outliers (minutes)
+  max_response_duration: 120.0
+  min_response_duration: 1.0
+  # Missing GPS handling
+  gps_interpolation_limit: 5  # Max consecutive missing coordinates to interpolate
+  # Temporal bounds
+  corrupted_time_fallback_minutes: 15.0
+
+features:
+  rolling_congestion_window: "3h"  # Rolling window size for congestion trends
+  heavy_rain_threshold: 10.0      # mm/h
+  low_visibility_threshold: 5.0   # km
+  delayed_response_threshold_minutes: 15.0 # Delay threshold
+  spatial_grid_size_km: 1.0       # Spatial grid resolution
+
+models:
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 5
+    random_state: 42
+  
+  gradient_boosting:
+    n_estimators: 100
+    learning_rate: 0.1
+    max_depth: 5
+    random_state: 42
+
+  test_size: 0.2
